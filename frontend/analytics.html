@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrackWise - Analytics</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <aside class="sidebar glass-panel" style="border-radius: 0; border-left: none; border-top: none; border-bottom: none;">
+            <div class="sidebar-header">
+                <h2>TrackWise</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="index.html" class="nav-item">Dashboard</a>
+                <a href="expenses.html" class="nav-item">Expenses</a>
+                <a href="income.html" class="nav-item">Income</a>
+                <a href="analytics.html" class="nav-item active">Analytics</a>
+                <a href="profile.html" class="nav-item">Profile</a>
+            </nav>
+            <div style="padding: 24px;">
+                <button id="logoutBtn" class="btn btn-danger" style="width: 100%;">Log Out</button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="page-header">
+                <h1>Analytics Center</h1>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+                <div class="glass-panel">
+                    <h3>Expense Breakdown by Category</h3>
+                    <div class="chart-container">
+                        <canvas id="categoryChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="glass-panel">
+                    <h3>6-Month Expense Trend</h3>
+                    <div class="chart-container">
+                        <canvas id="trendChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="module" src="js/analytics.js"></script>
+</body>
+</html>

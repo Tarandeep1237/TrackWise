@@ -1,0 +1,10 @@
+package com.trackwise.backend.repository;
+
+import com.trackwise.backend.entity.Expense;
+import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
+
+public interface ExpenseRepository extends JpaRepository<Expense, Long> {
+    List<Expense> findByUserIdOrderByDateDesc(Long userId);
+    List<Expense> findByUserId(Long userId);
+}

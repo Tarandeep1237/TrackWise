@@ -1,0 +1,15 @@
+# Spring Boot
+backend/target/
+backend/.mvn/
+backend/mvnw
+backend/mvnw.cmd
+backend/*.jar
+backend/*.war
+
+# Node modules (just in case)
+node_modules/
+
+# IDE files
+.vscode/
+.idea/
+*.iml
