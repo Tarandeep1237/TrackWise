@@ -39,6 +39,25 @@ public class ExpenseController {
         return ResponseEntity.ok(savedExpense);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateExpense(@PathVariable Long id, @RequestBody Expense request) {
+        Long userId = getUserId();
+        Optional<Expense> optionalExpense = expenseRepository.findById(id);
+        
+        if (optionalExpense.isPresent() && optionalExpense.get().getUserId().equals(userId)) {
+            Expense expense = optionalExpense.get();
+            expense.setAmount(request.getAmount());
+            expense.setCategory(request.getCategory());
+            expense.setDate(request.getDate() != null ? request.getDate() : LocalDate.now());
+            expense.setDescription(request.getDescription());
+            
+            Expense updatedExpense = expenseRepository.save(expense);
+            return ResponseEntity.ok(updatedExpense);
+        }
+        
+        return ResponseEntity.status(403).body("Not authorized or not found");
+    }
+
     @GetMapping
     public ResponseEntity<List<Expense>> getExpenses() {
         Long userId = getUserId();

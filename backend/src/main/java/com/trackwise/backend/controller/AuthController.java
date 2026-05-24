@@ -38,10 +38,11 @@ public class AuthController {
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         
+        user.setLastLogin(new java.sql.Timestamp(System.currentTimeMillis()));
         User savedUser = userRepository.save(user);
 
         String token = jwtUtil.generateToken(savedUser.getId());
-        return ResponseEntity.ok(new AuthResponse(token, new AuthResponse.UserDto(savedUser.getId(), savedUser.getName(), savedUser.getEmail(), savedUser.getCreatedAt())));
+        return ResponseEntity.ok(new AuthResponse(token, new AuthResponse.UserDto(savedUser.getId(), savedUser.getName(), savedUser.getEmail(), savedUser.getCreatedAt(), savedUser.getLastLogin())));
     }
 
     @PostMapping("/login")
@@ -57,8 +58,11 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
         }
 
+        user.setLastLogin(new java.sql.Timestamp(System.currentTimeMillis()));
+        userRepository.save(user);
+
         String token = jwtUtil.generateToken(user.getId());
-        return ResponseEntity.ok(new AuthResponse(token, new AuthResponse.UserDto(user.getId(), user.getName(), user.getEmail(), user.getCreatedAt())));
+        return ResponseEntity.ok(new AuthResponse(token, new AuthResponse.UserDto(user.getId(), user.getName(), user.getEmail(), user.getCreatedAt(), user.getLastLogin())));
     }
 
     @GetMapping("/me")
@@ -67,7 +71,7 @@ public class AuthController {
         Optional<User> user = userRepository.findById(userId);
         if (user.isPresent()) {
             User u = user.get();
-            return ResponseEntity.ok(new AuthResponse.UserDto(u.getId(), u.getName(), u.getEmail(), u.getCreatedAt()));
+            return ResponseEntity.ok(new AuthResponse.UserDto(u.getId(), u.getName(), u.getEmail(), u.getCreatedAt(), u.getLastLogin()));
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
     }

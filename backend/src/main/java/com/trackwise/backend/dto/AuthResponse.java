@@ -18,5 +18,8 @@ public class AuthResponse {
 
         @com.fasterxml.jackson.annotation.JsonProperty("created_at")
         private java.sql.Timestamp createdAt;
+
+        @com.fasterxml.jackson.annotation.JsonProperty("last_login")
+        private java.sql.Timestamp lastLogin;
     }
 }

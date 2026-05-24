@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.getElementById('profileName').textContent = userData.name;
         document.getElementById('profileEmail').textContent = userData.email;
         document.getElementById('profileId').textContent = `#${userData.id.toString().padStart(4, '0')}`;
-        document.getElementById('profileDate').textContent = formatDate(userData.created_at);
+        document.getElementById('profileDate').textContent = formatDate(userData.last_login || userData.created_at);
         
         // Generate Initials
         if (userData.name) {

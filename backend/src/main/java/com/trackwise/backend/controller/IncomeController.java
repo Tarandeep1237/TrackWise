@@ -38,6 +38,24 @@ public class IncomeController {
         return ResponseEntity.ok(savedIncome);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateIncome(@PathVariable Long id, @RequestBody Income request) {
+        Long userId = getUserId();
+        Optional<Income> optionalIncome = incomeRepository.findById(id);
+        
+        if (optionalIncome.isPresent() && optionalIncome.get().getUserId().equals(userId)) {
+            Income income = optionalIncome.get();
+            income.setAmount(request.getAmount());
+            income.setSource(request.getSource());
+            income.setDate(request.getDate() != null ? request.getDate() : LocalDate.now());
+            
+            Income updatedIncome = incomeRepository.save(income);
+            return ResponseEntity.ok(updatedIncome);
+        }
+        
+        return ResponseEntity.status(403).body("Not authorized or not found");
+    }
+
     @GetMapping
     public ResponseEntity<List<Income>> getIncome() {
         Long userId = getUserId();

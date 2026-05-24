@@ -23,4 +23,7 @@ public class User {
 
     @Column(name = "created_at", insertable = false, updatable = false)
     private Timestamp createdAt;
+
+    @Column(name = "last_login")
+    private Timestamp lastLogin;
 }
