@@ -60,7 +60,7 @@ function editIncome(id) {
     document.getElementById('incomeId').value = income.id;
     document.getElementById('amount').value = income.amount;
     document.getElementById('source').value = income.source;
-    document.getElementById('date').value = income.date.split('T')[0];
+    document.getElementById('date').value = income.date ? income.date.split('T')[0] : '';
 
     document.getElementById('submitBtn').textContent = 'Update Income';
     document.getElementById('cancelBtn').style.display = 'block';

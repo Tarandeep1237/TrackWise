@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'http://localhost:8080/api';
 
 const apiFetch = async (endpoint, options = {}) => {
     const token = localStorage.getItem('token');
@@ -18,10 +18,25 @@ const apiFetch = async (endpoint, options = {}) => {
             headers
         });
 
-        const data = await response.json();
+        if (response.status === 401 || response.status === 403) {
+            if (!window.location.href.includes('login.html') && !window.location.href.includes('register.html')) {
+                logout();
+                return;
+            }
+        }
+
+        let data;
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+            data = await response.json();
+        } else {
+            const text = await response.text();
+            data = text ? { message: text, error: text } : {};
+        }
 
         if (!response.ok) {
-            throw new Error(data.error || 'Something went wrong');
+            const errorMsg = typeof data === 'string' ? data : (data.error || data.message || 'Something went wrong');
+            throw new Error(errorMsg);
         }
 
         return data;

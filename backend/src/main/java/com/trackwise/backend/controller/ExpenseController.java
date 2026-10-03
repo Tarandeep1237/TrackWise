@@ -55,7 +55,7 @@ public class ExpenseController {
             return ResponseEntity.ok(updatedExpense);
         }
         
-        return ResponseEntity.status(403).body("Not authorized or not found");
+        return ResponseEntity.status(403).body(java.util.Map.of("error", "Not authorized or not found"));
     }
 
     @GetMapping
@@ -72,9 +72,9 @@ public class ExpenseController {
         
         if (expense.isPresent() && expense.get().getUserId().equals(userId)) {
             expenseRepository.deleteById(id);
-            return ResponseEntity.ok("Expense deleted");
+            return ResponseEntity.ok(java.util.Map.of("message", "Expense deleted"));
         }
         
-        return ResponseEntity.status(403).body("Not authorized or not found");
+        return ResponseEntity.status(403).body(java.util.Map.of("error", "Not authorized or not found"));
     }
 }

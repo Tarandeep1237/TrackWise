@@ -53,7 +53,7 @@ public class IncomeController {
             return ResponseEntity.ok(updatedIncome);
         }
         
-        return ResponseEntity.status(403).body("Not authorized or not found");
+        return ResponseEntity.status(403).body(java.util.Map.of("error", "Not authorized or not found"));
     }
 
     @GetMapping
@@ -70,9 +70,9 @@ public class IncomeController {
         
         if (income.isPresent() && income.get().getUserId().equals(userId)) {
             incomeRepository.deleteById(id);
-            return ResponseEntity.ok("Income deleted");
+            return ResponseEntity.ok(java.util.Map.of("message", "Income deleted"));
         }
         
-        return ResponseEntity.status(403).body("Not authorized or not found");
+        return ResponseEntity.status(403).body(java.util.Map.of("error", "Not authorized or not found"));
     }
 }

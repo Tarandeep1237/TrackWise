@@ -30,7 +30,7 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email already registered");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(java.util.Map.of("error", "Email already registered"));
         }
 
         User user = new User();
@@ -50,12 +50,12 @@ public class AuthController {
         Optional<User> optionalUser = userRepository.findByEmail(request.getEmail());
         
         if (optionalUser.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(java.util.Map.of("error", "Invalid credentials"));
         }
 
         User user = optionalUser.get();
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(java.util.Map.of("error", "Invalid credentials"));
         }
 
         user.setLastLogin(new java.sql.Timestamp(System.currentTimeMillis()));
@@ -73,6 +73,6 @@ public class AuthController {
             User u = user.get();
             return ResponseEntity.ok(new AuthResponse.UserDto(u.getId(), u.getName(), u.getEmail(), u.getCreatedAt(), u.getLastLogin()));
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(java.util.Map.of("error", "User not found"));
     }
 }

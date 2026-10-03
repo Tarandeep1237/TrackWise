@@ -61,8 +61,8 @@ function editExpense(id) {
     document.getElementById('expenseId').value = expense.id;
     document.getElementById('amount').value = expense.amount;
     document.getElementById('category').value = expense.category;
-    document.getElementById('date').value = expense.date.split('T')[0];
-    document.getElementById('description').value = expense.description;
+    document.getElementById('date').value = expense.date ? expense.date.split('T')[0] : '';
+    document.getElementById('description').value = expense.description || '';
 
     document.getElementById('submitBtn').textContent = 'Update Expense';
     document.getElementById('cancelBtn').style.display = 'block';

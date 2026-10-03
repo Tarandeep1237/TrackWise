@@ -49,15 +49,24 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.disabled = true;
 
             try {
-                await apiFetch('/auth/register', {
+                const data = await apiFetch('/auth/register', {
                     method: 'POST',
                     body: JSON.stringify({ name, email, password })
                 });
 
-                showAlert('alertBox', 'Registration successful! Please login.', 'success');
-                setTimeout(() => {
-                    window.location.href = 'login.html';
-                }, 1500);
+                if (data && data.token && data.user) {
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    showAlert('alertBox', 'Registration successful! Redirecting...', 'success');
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1000);
+                } else {
+                    showAlert('alertBox', 'Registration successful! Please login.', 'success');
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 1500);
+                }
             } catch (err) {
                 showAlert('alertBox', err.message);
                 btn.textContent = 'Join TrackWise';
